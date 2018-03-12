@@ -28,6 +28,10 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    /**
+     * Relacion User/Like, un usuario tiene varios likes.
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function likes(){
         return $this->hasMany(Like::class);
     }

@@ -2,9 +2,9 @@
 
 @section('content')
     <h1>Usuarios que han dado me gusta al chusqer</h1>
-    <div class="row center-block">
+    <div class="row">
         @foreach($chusqer->likes as $like)
-            <div class="column center-block">
+            <div class="column">
                 <div class="card" style="width: 300px;">
 
                     <a href="/{{$like->user->slug}}">

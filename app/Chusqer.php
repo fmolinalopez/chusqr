@@ -18,6 +18,10 @@ class Chusqer extends Model
     // que NO se podrán modificar programáticamente.
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
+    /**
+     * Relacion Chusqer/Like, un chusqer tiene varios likes.
+     * @return \Illuminate\Database\Query\Builder|static
+     */
     public function likes(){
         return $this->hasMany(Like::class)->latest();
     }

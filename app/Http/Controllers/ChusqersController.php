@@ -26,6 +26,12 @@ class ChusqersController extends Controller
         ]);
     }
 
+    /**
+     * Funcion que comprueba si el usuario logeado ha dado like o no a un chusqer,
+     * si no ha dado like lo crea y si lo ha dado lo borra de la base de datos
+     * @param $chusqerId
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function like($chusqerId)
     {
         $user = Auth::user();
@@ -44,6 +50,11 @@ class ChusqersController extends Controller
         return redirect('/')->with('success', $message);
     }
 
+    /**
+     * Funcion que devuelve la vista chusqers.likes de un chusqer.
+     * @param $chusqerId
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function showLikesList($chusqerId){
         $chusqer = Chusqer::find($chusqerId);
 
