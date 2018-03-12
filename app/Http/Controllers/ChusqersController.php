@@ -36,11 +36,12 @@ class ChusqersController extends Controller
                 'chusqer_id' => $chusqerId,
                 'user_id' => $user->id,
             ]);
+            $message = "Has dado me gusta";
         }else{
             $like->delete();
+            $message = "Has quitado el me gusta";
         }
-
-        return redirect('/');
+        return redirect('/')->with('success', $message);
     }
 
     public function showLikesList($chusqerId){
