@@ -1,5 +1,5 @@
 @extends('layouts.app')
 
-@section('content')
-    @include('chusqers.chusqer')
-@endsection
+           @section('content')
+               @include('chusqers.chusqer')
+           @endsection

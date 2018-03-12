@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Chusqer;
 use App\Hashtag;
 use App\Http\Requests\CreateChusqerRequest;
+use App\Like;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -20,8 +21,33 @@ class ChusqersController extends Controller
      */
     public function show(Chusqer $chusqer)
     {
-        return view('chusqers.show', [
+        return view('chusqers.showChusqer', [
             'chusqer' => $chusqer
+        ]);
+    }
+
+    public function like($chusqerId)
+    {
+        $user = Auth::user();
+        $like = Like::findLike($chusqerId, $user->id);
+
+        if ($like == null) {
+            Like::create([
+                'chusqer_id' => $chusqerId,
+                'user_id' => $user->id,
+            ]);
+        }else{
+            $like->delete();
+        }
+
+        return redirect('/');
+    }
+
+    public function showLikesList($chusqerId){
+        $chusqer = Chusqer::find($chusqerId);
+
+        return view('chusqers.likes', [
+            'chusqer' => $chusqer,
         ]);
     }
 
@@ -42,26 +68,27 @@ class ChusqersController extends Controller
      * @param CreateChusqerRequest $request
      * @return mixed
      */
-    public function store(CreateChusqerRequest $request){
+    public function store(CreateChusqerRequest $request)
+    {
 
         $user = $request->user();
 
         $hashtags = $this->extractHashtags($request->input('content'));
 
 
-        if( $image = $request->file('image') ){
-            $url = $image->store('image','public');
-        }else{
+        if ($image = $request->file('image')) {
+            $url = $image->store('image', 'public');
+        } else {
             $url = "https://picsum.photos/150/150/?random";
         }
 
         $chusqer = Chusqer::create([
-            'user_id'   => $user->id,
-            'content'   => $request->input('content'),
-            'image'     => $url,
+            'user_id' => $user->id,
+            'content' => $request->input('content'),
+            'image' => $url,
         ]);
 
-        foreach ($hashtags as $singleHashtag){
+        foreach ($hashtags as $singleHashtag) {
             $hashtag = Hashtag::firstOrCreate(['slug' => $singleHashtag]);
             $chusqer->hashtags()->attach($hashtag);
         }
@@ -77,7 +104,7 @@ class ChusqersController extends Controller
      */
     public function edit(Chusqer $chusqer)
     {
-        if( ! Auth::user()->can('delete', $chusqer) ){
+        if (!Auth::user()->can('delete', $chusqer)) {
             return redirect()->route('home');
         }
 
@@ -88,26 +115,25 @@ class ChusqersController extends Controller
 
     public function patch(CreateChusqerRequest $request, Chusqer $chusqer)
     {
-        if( ! Auth::user()->can('delete', $chusqer) ){
+        if (!Auth::user()->can('delete', $chusqer)) {
             return redirect()->route('home');
         }
 
-        if( $image = $request->file('image') ){
-            if( !strpos($chusqer->image, "http") ) {
+        if ($image = $request->file('image')) {
+            if (!strpos($chusqer->image, "http")) {
                 $routeParts = explode('/', $chusqer->image);
-                Storage::disk('public')->delete('chusqers/'.end($routeParts));
+                Storage::disk('public')->delete('chusqers/' . end($routeParts));
             }
 
-            $url = $image->store('chusqers','public');
-        }else{
+            $url = $image->store('chusqers', 'public');
+        } else {
             $url = $chusqer->image;
         }
 
 
-
         $chusqer->fill([
             'content' => $request->input('content'),
-            'image'     => $url,
+            'image' => $url,
         ]);
 
         $chusqer->update();
@@ -122,7 +148,7 @@ class ChusqersController extends Controller
      */
     public function destroy(Chusqer $chusqer)
     {
-        if( ! Auth::user()->can('delete', $chusqer) ){
+        if (!Auth::user()->can('delete', $chusqer)) {
             return redirect()->route('home');
         }
 
@@ -135,12 +161,12 @@ class ChusqersController extends Controller
     {
         preg_match_all("/(#\w+)/u", $content, $matches);
 
-        if( $matches ){
+        if ($matches) {
             $hashtagsValues = array_count_values($matches[0]);
             $hashtags = array_keys($hashtagsValues);
         }
 
-        array_walk($hashtags, function(&$value){
+        array_walk($hashtags, function (&$value) {
             $value = str_replace("#", "", $value);
         });
 
@@ -166,7 +192,6 @@ class ChusqersController extends Controller
             'chusqers' => $chusqers,
         ]);
     }
-
 
 
 }

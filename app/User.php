@@ -28,6 +28,10 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    public function likes(){
+        return $this->hasMany(Like::class);
+    }
+
     /**
      * Un usuario tendrá varios mensajes (chusqers)
      */

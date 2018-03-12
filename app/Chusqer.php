@@ -18,6 +18,10 @@ class Chusqer extends Model
     // que NO se podrán modificar programáticamente.
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
+    public function likes(){
+        return $this->hasMany(Like::class)->latest();
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
