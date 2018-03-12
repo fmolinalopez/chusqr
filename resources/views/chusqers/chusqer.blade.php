@@ -16,7 +16,7 @@
         </div>
     @endif
     <div class="card-section">
-    <a href="/chusqers/{{$chusqer->id}}/like" class="@auth{{\App\Like::hasUserLiked($chusqer)? "alert button" : "button"}}@endauth @guest button @endguest">Me gusta!</a><a href="/{{$chusqer->id}}/likes">{{$chusqer->likes->count() == 0 ? '' : "Likes:" . $chusqer->likes->count()}}</a>
+    <a href="/chusqers/{{$chusqer->id}}/like" class="@auth{{\App\Like::hasUserLiked($chusqer)? "alert button" : "button"}}@endauth @guest button @endguest">@auth{{\App\Like::hasUserLiked($chusqer)? "No me gusta!" : "Me gusta!"}}@endauth @guest Me gusta! @endguest</a><a href="/{{$chusqer->id}}/likes">{{$chusqer->likes->count() == 0 ? '' : "Likes:" . $chusqer->likes->count()}}</a>
     @if(Auth::user() && Auth::user()->amI())
         @can('update', $chusqer)
             <a href="{{ Route('chusqers.edit', $chusqer) }}" class="button warning">Editar</a>

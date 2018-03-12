@@ -36,6 +36,10 @@ class User extends Authenticatable
         return $this->hasMany(Like::class);
     }
 
+
+    public static function findBySlug($slug){
+        return User::where('slug', $slug)->first();
+    }
     /**
      * Un usuario tendrá varios mensajes (chusqers)
      */

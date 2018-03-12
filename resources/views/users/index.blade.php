@@ -25,6 +25,18 @@
                     </tbody>
                 </table>
             <div class="info-user">
+                <table class="text-center">
+                    <thead>
+                    <tr>
+                        <th class="text-center"><a href="/user/{{ $user->slug }}/likes">Chusqers que me gustan</a></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>{{ $user->likes->count() }}</td>
+                    </tr>
+                    </tbody>
+                </table>
                 <img src="https://picsum.photos/300/300/?random" alt="" class="img-responsive">
                 <h2>{{ $user->name }}</h2>
                 <h3>&#64;{{ str_slug($user->name, "-") }}</h3>

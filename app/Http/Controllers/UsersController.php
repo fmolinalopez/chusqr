@@ -27,6 +27,14 @@ class UsersController extends Controller
         $this->user = auth()->user();
     }
 
+    public function userLikes($userSlug){
+        $user = User::findBySlug($userSlug);
+
+        return view('users.likes', [
+            'user' => $user
+        ]);
+    }
+
     /**
      * Display a listing of the resource.
      *

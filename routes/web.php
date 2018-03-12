@@ -53,6 +53,7 @@ Route::get('/chusqers/{chusqer}', 'ChusqersController@show')->name('chusqers.sho
 Route::get('/{user}', 'UsersController@show')->name('user');
 Route::get('/{user}/follows', 'UsersController@follows');
 Route::get('/{user}/followers', 'UsersController@followers');
+Route::get('/user/{user}/likes', 'UsersController@userLikes');
 
 
 
