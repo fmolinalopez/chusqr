@@ -10,6 +10,11 @@
             <a href="/hashtag/{{ $hashtag->slug }}"><span class="label label-primary">{{ $hashtag->slug }}</span></a>
         @endforeach
     </p>
+    @if(session('success'))
+        <div class="callout success">
+            {{session('success')}}
+        </div>
+    @endif
     <div class="card-section">
     <a href="/chusqers/{{$chusqer->id}}/like" class="@auth{{\App\Like::hasUserLiked($chusqer)? "alert button" : "button"}}@endauth @guest button @endguest">Me gusta!</a><a href="/{{$chusqer->id}}/likes">{{$chusqer->likes->count() == 0 ? '' : "Likes:" . $chusqer->likes->count()}}</a>
     @if(Auth::user() && Auth::user()->amI())

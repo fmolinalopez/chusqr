@@ -1,11 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-    @if(session('success'))
-        <div class="callout success">
-            {{session('success')}}
-        </div>
-    @endif
     <div class="small-12 column">
         @include('chusqers.newChusqer')
     </div>

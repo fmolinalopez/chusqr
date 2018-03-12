@@ -47,7 +47,7 @@ class ChusqersController extends Controller
             $like->delete();
             $message = "Has quitado el me gusta";
         }
-        return redirect('/')->with('success', $message);
+        return redirect("/chusqers/{$chusqerId}")->with('success', $message);
     }
 
     /**
